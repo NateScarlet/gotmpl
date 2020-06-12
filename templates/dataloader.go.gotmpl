@@ -165,29 +165,26 @@ func (l *{{.Name}}) LoadAllThunk(keys []{{ $key }}) func() ([]{{ $value }}, []er
 	}
 }
 
+// Set the cache with the provided key and value.
+// It is the caller's responsibility to avoid pass same pointer from a loop.
+func (l *{{.Name}}) Set(key {{ $key }}, value {{ $value }}) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+
+	l.unsafeSet(key, value)
+}
+
 // Prime the cache with the provided key and value. If the key already exists, no change is made
 // and false is returned.
-// (To forcefully prime the cache, clear the key first with loader.clear(key).prime(key, value).)
+// It is the caller's responsibility to avoid pass same pointer from a loop.
+// (To forcefully prime the cache, use Set.)
 func (l *{{.Name}}) Prime(key {{ $key }}, value {{ $value }}) bool {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
 	var found bool
 	if _, found = l.cache[key]; !found {
-{{- if $isPointer }}
-		// make a copy when writing to the cache, its easy to pass a pointer in from a loop var
-		// and end up with the whole cache pointing to the same value.
-		cpy := *value
-		l.unsafeSet(key, &cpy)
-{{- else if $isSlice }}
-		// make a copy when writing to the cache, its easy to pass a pointer in from a loop var
-		// and end up with the whole cache pointing to the same value.
-		cpy := make({{ $value }}, len(value))
-		copy(cpy, value)
-		l.unsafeSet(key, cpy)
-{{- else }}
 		l.unsafeSet(key, value)
-{{- end }}
 	}
 	
 	return !found
