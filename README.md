@@ -6,11 +6,18 @@ Render [golang template](https://pkg.go.dev/text/template/) with command line.
 
 [templates](./templates) folder has some example templates.
 
-## Usage
+## Install
+
+Download gotmpl from [release](https://github.com/NateScarlet/gotmpl/releases),
+and put it in your PATH.
+
+Or build from source
 
 ```shell
 go get github.com/NateScarlet/gotmpl/cmd/gotmpl
 ```
+
+## Usage
 
 Render template to stdout
 
