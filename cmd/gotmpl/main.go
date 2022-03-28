@@ -40,9 +40,10 @@ func main() {
 Version 0.2.0
 https://github.com/NateScarlet/gotmpl
 `)
+		flag.PrintDefaults()
 	}
 	flag.StringVar(&output, "o", "", "output file path")
-	flag.StringVar(&input, "i", "", "input json data file path, pass `-` for stdin")
+	flag.StringVar(&input, "i", "", "input json data file path, pass \"-\" for stdin")
 	flag.Parse()
 
 	data := map[string]interface{}{} // sprig dict functions require map[string]interface{}
