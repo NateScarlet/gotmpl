@@ -53,7 +53,7 @@ gotmpl Key=Value ./template.gotmpl ./template2.gotmpl
 Read data from stdin
 
 ```shell
-echo '{"Key": "Value"}' | gotmpl ./template.gotmpl
+echo '{"Key": "Value"}' | gotmpl -i - ./template.gotmpl
 ```
 
 Read data from file

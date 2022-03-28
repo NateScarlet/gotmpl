@@ -17,11 +17,6 @@ import (
 )
 
 func stdinData() map[string]interface{} {
-	// https://stackoverflow.com/questions/22744443/
-	stat, _ := os.Stdin.Stat()
-	if (stat.Mode() & os.ModeCharDevice) != 0 {
-		return nil
-	}
 	stdin, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
 		log.Fatal(err)
@@ -41,14 +36,13 @@ func main() {
 	flag.Usage = func() {
 		fmt.Fprint(flag.CommandLine.Output(),
 			`Usage: gotmpl [-i data.json] [-o output.txt] [key=value] template [template ...]
-You can also pass a json dict to stdin as data.
 
-Version 0.1.0
+Version 0.2.0
 https://github.com/NateScarlet/gotmpl
 `)
 	}
 	flag.StringVar(&output, "o", "", "output file path")
-	flag.StringVar(&input, "i", "", "input json data file path")
+	flag.StringVar(&input, "i", "", "input json data file path, pass `-` for stdin")
 	flag.Parse()
 
 	data := map[string]interface{}{} // sprig dict functions require map[string]interface{}
@@ -63,11 +57,11 @@ https://github.com/NateScarlet/gotmpl
 		data["Package"] = filepath.Base(filepath.Dir(p))
 	}
 
-	for k, v := range stdinData() {
-		data[k] = v
-	}
-
-	if input != "" {
+	if input == "-" {
+		for k, v := range stdinData() {
+			data[k] = v
+		}
+	} else if input != "" {
 		d, err := ioutil.ReadFile(input)
 		if err != nil {
 			log.Fatal(err)
