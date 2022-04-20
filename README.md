@@ -87,6 +87,5 @@ There are some default data for convenient:
 Data merged in order:
 
 - default data
-- stdin data
 - `-i` file data
 - inline key value pair
