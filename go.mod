@@ -1,6 +1,6 @@
 module github.com/NateScarlet/gotmpl
 
-go 1.14
+go 1.19
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.2
