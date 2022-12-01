@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
-	github.com/huandu/xstrings v1.3.3
+	github.com/huandu/xstrings v1.4.0
 )
 
 require (
